@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-k@j(4_+r05%n0wwg9995u+d74u8*5p^)3sf2_5jh+j%0=pe_n=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [".herokuapp.com", "127.0.0.1"]
 
 
 # Application definition
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "channels",
     "rest_framework",
+    "rest_framework.authtoken",
     "core",
     "api",
     "LocationService",
@@ -82,7 +83,14 @@ CHANNEL_LAYERS = {
         },
     },
 }
-
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.BasicAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+    ]
+}
+# AUTH_USER_MODEL = "django.contrib.auth.models.user"
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -132,6 +140,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "static"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

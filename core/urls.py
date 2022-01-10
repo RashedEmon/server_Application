@@ -5,6 +5,5 @@ import api
 
 urlpatterns = [
     path("", views.index, name="index"),
-    path("login", views.loginView, name="login"),
-    path("api", include("api.urls"), name="api"),
+    path("login/", views.loginView, name="login"),
 ]
