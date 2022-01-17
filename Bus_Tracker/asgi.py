@@ -39,7 +39,8 @@ application = ProtocolTypeRouter(
             AuthMiddlewareStack(
                 URLRouter(
                     [
-                        url(r"^ws/location/(?P<bus>\w+)$", SetLocationConsumer),
+                        url(r"^ws/location/(?P<bus>[\w-]+)$",
+                            SetLocationConsumer),
                         # url(r"^ws/getlocation/$", LocationConsumer),
                     ]
                 )

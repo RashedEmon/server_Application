@@ -22,3 +22,8 @@ class BusDetailsView(serializers.Serializer):
     destination = serializers.CharField(max_length=50)
     departureTime = serializers.TimeField()
     routes = serializers.CharField(max_length=2000)
+
+
+class Bus_Details_From_Token_serializer(serializers.Serializer):
+    bus_id = serializers.UUIDField(read_only=True)
+    bus_name = serializers.CharField(max_length=50)

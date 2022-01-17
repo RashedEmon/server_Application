@@ -3,14 +3,23 @@ import datetime
 import os
 import time
 from channels.consumer import SyncConsumer, AsyncConsumer
+from random import randint
+from channels.db import database_sync_to_async
+from rest_framework.authtoken.models import Token
+from channels.auth import login
+# import user model
+from django.contrib.auth.models import User
+# import annoynomus user
+from django.contrib.auth.models import AnonymousUser
 
 
 class SetLocationConsumer(AsyncConsumer):
+    data = ''
+
     async def websocket_connect(self, event):
         self.bus = self.scope["url_route"]["kwargs"]["bus"]
         print(self.bus)
         self.user = self.scope["user"]
-
         self.bus_room = self.bus
         await self.channel_layer.group_add(self.bus_room, self.channel_name)
 
@@ -34,6 +43,8 @@ class SetLocationConsumer(AsyncConsumer):
         # print(event)
         self.user = self.scope["user"]
         print(self.user)
+        print(f'{randint(1,100)}{event["text"]}')
+
         # if self.user.is_authenticated:
         await self.channel_layer.group_send(
             self.bus_room,
