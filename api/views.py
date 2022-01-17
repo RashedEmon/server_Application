@@ -2,8 +2,8 @@ from django.shortcuts import render, HttpResponse
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
-from api.serializers import BusSerializer
-
+from api.serializers import BusSerializer, BusDetailsView, Bus_Details_From_Token_serializer
+from rest_framework.authtoken.models import Token
 # from django.db.models.utils import list_to_queryset
 
 # Create your views here.
@@ -69,3 +69,25 @@ def BusDetailsView(request, id):
     # print(destination)
     info = BusSerializer(infoList, many=True)
     return Response(info.data)
+
+
+@api_view(["GET"])
+def bus_from_token(request):
+    bus_info = {
+
+    }
+    try:
+        if 'Authorization' in request.headers:
+            token = request.headers['Authorization']
+            token = token.split(' ')[1]
+            print(token)
+            bus = Token.objects.get(key=token).user.bus
+            bus_info['bus_name'] = bus.bus_name.lower()
+            bus_info['bus_id'] = bus.bus_id
+            print(bus_info)
+            info = Bus_Details_From_Token_serializer(bus_info)
+            return Response(info.data, status=status.HTTP_200_OK)
+        else:
+            return Response({"msg": "not registered"}, status=status.HTTP_404_NOT_FOUND)
+    except Token.DoesNotExist:
+        return Response({"msg": "not found"}, status=status.HTTP_404_NOT_FOUND)
