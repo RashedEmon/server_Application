@@ -82,7 +82,7 @@ def bus_from_token(request):
             token = token.split(' ')[1]
             print(token)
             bus = Token.objects.get(key=token).user.bus
-            bus_info['bus_name'] = bus.bus_name.lower()
+            bus_info['bus_name'] = bus.bus_name
             bus_info['bus_id'] = bus.bus_id
             print(bus_info)
             info = Bus_Details_From_Token_serializer(bus_info)

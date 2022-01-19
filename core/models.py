@@ -16,8 +16,10 @@ class Bus(models.Model):
         ("ST", "Student"),
         ("SF", "Staff"),
     ]
-    user = models.OneToOneField(User, verbose_name="Bus_User", on_delete=models.CASCADE)
-    bus_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.OneToOneField(
+        User, verbose_name="Bus_User", on_delete=models.CASCADE)
+    bus_id = models.UUIDField(
+        primary_key=True, default=uuid.uuid4, editable=False)
     bus_name = models.CharField(max_length=50)
     bus_type = models.CharField(
         max_length=10,
@@ -31,6 +33,13 @@ class Bus(models.Model):
 
     def __str__(self):
         return self.bus_name
+
+    def change_active_status(self):
+        if self.bus_active_status:
+            self.bus_active_status = False
+        else:
+            self.bus_active_status = True
+        self.save()
 
 
 class Bus_Route(models.Model):
@@ -48,7 +57,8 @@ class Bus_Route(models.Model):
     start_place = models.CharField(max_length=50)
     end_place = models.CharField(max_length=50)
     routes = models.TextField()
-    off_day = models.CharField(max_length=10, choices=OFF_DAY_CHOICES, default="None")
+    off_day = models.CharField(
+        max_length=10, choices=OFF_DAY_CHOICES, default="None")
     departure_time = models.TimeField()
 
     def __str__(self):
@@ -59,3 +69,10 @@ class Bus_Route(models.Model):
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
+
+
+# def update_is_on(sender, instance, **kwargs):
+#     if not instance.is_on:
+#         Bus_Route.objects.filter(bus=instance).update(is_on=True)
+#     else:
+#         Bus_Route.objects.filter(bus=instance).update(is_on=False)

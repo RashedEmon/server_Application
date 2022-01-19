@@ -26,7 +26,7 @@ from django.conf.urls import url
 from django.core.asgi import get_asgi_application
 from core import views
 import core
-from LocationService.consumers import SetLocationConsumer
+from LocationService.consumers import LocationConsumer
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Bus_Tracker.settings")
 
@@ -39,9 +39,10 @@ application = ProtocolTypeRouter(
             AuthMiddlewareStack(
                 URLRouter(
                     [
-                        url(r"^ws/location/(?P<bus>[\w-]+)$",
-                            SetLocationConsumer),
-                        # url(r"^ws/getlocation/$", LocationConsumer),
+                        # url(r"^ws/location/(?P<bus>[\w-]+)$",
+                        #     LocationConsumer),
+                        url(
+                            r"^ws/location/(?P<token>[a-z 0-9 -]+)/(?P<bus>[\w-]+)$", LocationConsumer),
                     ]
                 )
             )

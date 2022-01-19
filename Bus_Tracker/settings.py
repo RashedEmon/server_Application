@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-k@j(4_+r05%n0wwg9995u+d74u8*5p^)3sf2_5jh+j%0=pe_n=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [".herokuapp.com", "127.0.0.1", "192.168.1.120"]
+ALLOWED_HOSTS = ["*", "127.0.0.1", "192.168.0.115"]
 
 
 # Application definition
@@ -54,6 +54,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # "Bus_Tracker.middleware.tokenauthmiddleware.TokenAuthMiddleware",
 ]
 
 ROOT_URLCONF = "Bus_Tracker.urls"
